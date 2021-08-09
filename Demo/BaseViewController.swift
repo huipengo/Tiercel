@@ -158,7 +158,7 @@ extension BaseViewController: UITableViewDataSource, UITableViewDelegate {
 
         guard let task = sessionManager.tasks.safeObject(at: indexPath.row),
             let cell = cell as? DownloadTaskCell else { return }
-                
+        
         cell.titleLabel.text = task.fileName
         
         cell.updateProgress(task)

@@ -221,15 +221,27 @@ public class SessionManager {
                 configuration: SessionConfiguration,
                 logger: Logable? = nil,
                 cache: Cache? = nil,
-                operationQueue: DispatchQueue = DispatchQueue(label: "com.Tiercel.SessionManager.operationQueue",
-                                                              autoreleaseFrequency: .workItem)) {
+                operationQueue: DispatchQueue? = nil) {
+        
+        if operationQueue == nil {
+            if #available(iOS 10.0, *) {
+                self.operationQueue = DispatchQueue(label: "com.Tiercel.SessionManager.operationQueue",
+                                               autoreleaseFrequency: .workItem)
+            } else {
+                self.operationQueue = DispatchQueue(label: "com.Tiercel.SessionManager.operationQueue",
+                                               autoreleaseFrequency: .inherit)
+            }
+        }
+        else {
+            self.operationQueue = operationQueue!
+        }
+        
         let bundleIdentifier = Bundle.main.bundleIdentifier ?? "com.Daniels.Tiercel"
         self.identifier = "\(bundleIdentifier).\(identifier)"
         protectedState = Protector(
             State(logger: logger ?? Logger(identifier: "\(bundleIdentifier).\(identifier)", option: .default),
                   configuration: configuration)
         )
-        self.operationQueue = operationQueue
         self.cache = cache ?? Cache(identifier)
         self.cache.manager = self
         self.cache.retrieveAllTasks().forEach { maintainTasks(with: .append($0)) }
@@ -238,12 +250,12 @@ public class SessionManager {
         protectedState.write { state in
             state.tasks.forEach {
                 $0.manager = self
-                $0.operationQueue = operationQueue
+                $0.operationQueue = self.operationQueue
                 state.urlMapper[$0.currentURL] = $0.url
             }
             state.shouldCreatSession = true
         }
-        operationQueue.sync {
+        self.operationQueue.sync {
             createSession()
             restoreStatus()
         }

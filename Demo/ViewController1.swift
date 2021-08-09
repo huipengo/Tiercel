@@ -20,8 +20,7 @@ class ViewController1: UIViewController {
     @IBOutlet weak var validationLabel: UILabel!
 
 
-//    lazy var URLString = "https://officecdn-microsoft-com.akamaized.net/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Office_2016_16.10.18021001_Installer.pkg"
-    lazy var URLString = "http://dldir1.qq.com/qqfile/QQforMac/QQ_V4.2.4.dmg"
+    lazy var URLString = "https://5b0988e595225.cdn.sohucs.com/images/20190130/1420967152ae4a388abbd84454823ad0.gif"
     var sessionManager = appDelegate.sessionManager1
 
     override func viewDidLoad() {
@@ -33,6 +32,7 @@ class ViewController1: UIViewController {
             self?.updateUI(task)
             if task.status == .succeeded {
                 // 下载成功
+                print("path is: \(task.filePath), \(task.url)")
             } else {
                 // 其他状态
             }
@@ -76,6 +76,7 @@ class ViewController1: UIViewController {
             self?.updateUI(task)
             if task.status == .succeeded {
                 // 下载成功
+                print("download path is: \(task.filePath), \(task.url)")
             } else {
                 // 其他状态
             }

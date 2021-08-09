@@ -64,7 +64,11 @@ public class Cache {
         self.identifier = identifier
         
         let ioQueueName = "com.Tiercel.Cache.ioQueue.\(identifier)"
-        ioQueue = DispatchQueue(label: ioQueueName, autoreleaseFrequency: .workItem)
+        if #available(iOS 10.0, *) {
+            ioQueue = DispatchQueue(label: ioQueueName, autoreleaseFrequency: .workItem)
+        } else {
+            ioQueue = DispatchQueue(label: ioQueueName, autoreleaseFrequency: .inherit)
+        }
         
         debouncer = Debouncer(queue: ioQueue)
         

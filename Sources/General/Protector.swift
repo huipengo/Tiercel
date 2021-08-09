@@ -29,25 +29,38 @@ import Foundation
 
 
 final public class UnfairLock {
-    private let unfairLock: os_unfair_lock_t
-
-    public init() {
-        
-        unfairLock = .allocate(capacity: 1)
-        unfairLock.initialize(to: os_unfair_lock())
-    }
+    private lazy var unfairLock = { () -> Any in
+        if #available(iOS 10.0, *) {
+            let unfairLock: os_unfair_lock_t = .allocate(capacity: 1)
+            unfairLock.initialize(to: os_unfair_lock())
+            return unfairLock
+        } else {
+            let unfairLock: DispatchSemaphore = DispatchSemaphore(value: 1)
+            return unfairLock
+        }
+    }()
 
     deinit {
-        unfairLock.deinitialize(count: 1)
-        unfairLock.deallocate()
+        if #available(iOS 10.0, *) {
+            (unfairLock as! os_unfair_lock_t).deinitialize(count: 1)
+            (unfairLock as! os_unfair_lock_t).deallocate()
+        }
     }
 
     private func lock() {
-        os_unfair_lock_lock(unfairLock)
+        if #available(iOS 10.0, *) {
+            os_unfair_lock_lock((unfairLock as! os_unfair_lock_t))
+        } else {
+            (unfairLock as! DispatchSemaphore).wait()
+        }
     }
 
     private func unlock() {
-        os_unfair_lock_unlock(unfairLock)
+        if #available(iOS 10.0, *) {
+            os_unfair_lock_unlock((unfairLock as! os_unfair_lock_t))
+        } else {
+            (unfairLock as! DispatchSemaphore).signal()
+        }
     }
 
 
