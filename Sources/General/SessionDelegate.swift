@@ -95,5 +95,14 @@ extension SessionDelegate: URLSessionDownloadDelegate {
 
     }
     
+    func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        if (challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust) {
+            let credntial: URLCredential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
+            completionHandler(URLSession.AuthChallengeDisposition.useCredential, credntial)
+        }
+        else {
+            completionHandler(.performDefaultHandling, nil)
+        }
+    }
     
 }

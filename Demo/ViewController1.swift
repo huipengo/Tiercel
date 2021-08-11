@@ -20,7 +20,7 @@ class ViewController1: UIViewController {
     @IBOutlet weak var validationLabel: UILabel!
 
 
-    lazy var URLString = "https://5b0988e595225.cdn.sohucs.com/images/20190130/1420967152ae4a388abbd84454823ad0.gif"
+    lazy var URLString = "https://static.58.com/arthurupload/yangyiliang/static/jisha.pag"
     var sessionManager = appDelegate.sessionManager1
 
     override func viewDidLoad() {
@@ -36,7 +36,7 @@ class ViewController1: UIViewController {
             } else {
                 // 其他状态
             }
-        }.validateFile(code: "9e2a3650530b563da297c9246acaad5c", type: .md5) { [weak self] (task) in
+        }.validateFile(code: "466c63be90d64a3e53b86ea64912a5ae", type: .md5) { [weak self] (task) in
             self?.updateUI(task)
             if task.validation == .correct {
                 // 文件正确
@@ -70,22 +70,33 @@ class ViewController1: UIViewController {
     }
     
     @IBAction func start(_ sender: UIButton) {
-        sessionManager.download(URLString)?.progress { [weak self] (task) in
-            self?.updateUI(task)
-        }.completion { [weak self] (task) in
-            self?.updateUI(task)
-            if task.status == .succeeded {
-                // 下载成功
-                print("download path is: \(task.filePath), \(task.url)")
-            } else {
-                // 其他状态
-            }
-        }.validateFile(code: "9e2a3650530b563da297c9246acaad5c", type: .md5) { [weak self] (task) in
-            self?.updateUI(task)
-            if task.validation == .correct {
-                // 文件正确
-            } else {
-                // 文件错误
+        
+        print("\(String(describing: sessionManager.cache.filePath(url: URLString)))")
+        
+        if sessionManager.cache.fileExists(url:URLString) {
+            print("\(URLString) is exists.")
+            
+            return
+        }
+        
+        DispatchQueue.global().async { [weak self] in
+            self?.sessionManager.download(self!.URLString)?.progress { [weak self] (task) in
+                self?.updateUI(task)
+            }.completion { [weak self] (task) in
+                self?.updateUI(task)
+                if task.status == .succeeded {
+                    // 下载成功
+                    print("download path is: \(task.filePath), \(task.url)")
+                } else {
+                    // 其他状态
+                }
+            }.validateFile(code: "466c63be90d64a3e53b86ea64912a5ae", type: .md5) { [weak self] (task) in
+                self?.updateUI(task)
+                if task.validation == .correct {
+                    // 文件正确
+                } else {
+                    // 文件错误
+                }
             }
         }
     }

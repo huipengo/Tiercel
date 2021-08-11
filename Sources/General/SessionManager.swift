@@ -224,13 +224,7 @@ public class SessionManager {
                 operationQueue: DispatchQueue? = nil) {
         
         if operationQueue == nil {
-            if #available(iOS 10.0, *) {
-                self.operationQueue = DispatchQueue(label: "com.Tiercel.SessionManager.operationQueue",
-                                               autoreleaseFrequency: .workItem)
-            } else {
-                self.operationQueue = DispatchQueue(label: "com.Tiercel.SessionManager.operationQueue",
-                                               autoreleaseFrequency: .inherit)
-            }
+            self.operationQueue = SessionManager.queue()
         }
         else {
             self.operationQueue = operationQueue!
@@ -247,10 +241,10 @@ public class SessionManager {
         self.cache.retrieveAllTasks().forEach { maintainTasks(with: .append($0)) }
         succeededTasks = tasks.filter { $0.status == .succeeded }
         log(.sessionManager("retrieveTasks", manager: self))
-        protectedState.write { state in
+        protectedState.write { [weak self] state in
             state.tasks.forEach {
                 $0.manager = self
-                $0.operationQueue = self.operationQueue
+                $0.operationQueue = self?.operationQueue ?? SessionManager.queue()
                 state.urlMapper[$0.currentURL] = $0.url
             }
             state.shouldCreatSession = true
@@ -259,6 +253,18 @@ public class SessionManager {
             createSession()
             restoreStatus()
         }
+    }
+    
+    private static func queue() -> DispatchQueue {
+        let operationQueue: DispatchQueue
+        if #available(iOS 10.0, *) {
+            operationQueue = DispatchQueue(label: "com.Tiercel.SessionManager.operationQueue",
+                                           autoreleaseFrequency: .workItem)
+        } else {
+            operationQueue = DispatchQueue(label: "com.Tiercel.SessionManager.operationQueue",
+                                           autoreleaseFrequency: .inherit)
+        }
+        return operationQueue
     }
     
     deinit {

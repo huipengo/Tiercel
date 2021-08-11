@@ -16,12 +16,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    let sessionManager1 = SessionManager("ViewController1", configuration: SessionConfiguration())
+//    let sessionManager1 = SessionManager("PAG", configuration: SessionConfiguration())
     
+    var sessionManager1: SessionManager = {
+        var configuration = SessionConfiguration()
+        configuration.allowsCellularAccess = true
+        let path = Cache.defaultDiskCachePathClosure("PAG")
+        let cacahe = Cache("PAG", downloadPath: path)
+        let manager = SessionManager("PAG", configuration: configuration, cache: cacahe, operationQueue: DispatchQueue(label: "com.Tiercel.SessionManager.operationQueue"))
+        return manager
+    }()
+
+
     var sessionManager2: SessionManager = {
         var configuration = SessionConfiguration()
         configuration.allowsCellularAccess = true
-        let path = Cache.defaultDiskCachePathClosure("Test")
+        let path = Cache.defaultDiskCachePathClosure("View2")
         let cacahe = Cache("ViewController2", downloadPath: path)
         let manager = SessionManager("ViewController2", configuration: configuration, cache: cacahe, operationQueue: DispatchQueue(label: "com.Tiercel.SessionManager.operationQueue"))
         return manager
