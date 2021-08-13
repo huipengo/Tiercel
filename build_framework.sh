@@ -99,9 +99,9 @@ DST_DIR="Frameworks"
 if [ ! -d $DST_DIR ]; then
 mkdir -p "$DST_DIR"
 fi
-rm -rf ${DST_DIR}/${TARGET_NAME}.framework
+rm -rf ${DST_DIR}/${FMK_NAME}.framework
 cp -af ${INSTALL_DIR} ${DST_DIR}
 
 rm -r $(pwd)/Products
 
-echo "***完成Build ${TARGET_NAME}静态库${configuration}****"
+echo "***完成 Build ${FMK_NAME}.framework ${configuration} ****"
