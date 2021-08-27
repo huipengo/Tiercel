@@ -20,7 +20,10 @@ class ViewController1: UIViewController {
     @IBOutlet weak var validationLabel: UILabel!
 
 
-    lazy var URLString = "https://static.58.com/arthurupload/yangyiliang/static/jisha.pag"
+    // lazy var URLString = "https://static.58.com/arthurupload/yangyiliang/static/jisha.pag"
+    lazy var URLString = {
+       urlEncoding("http://testv2.wos.58v5.cn/QSOrMlKjIhQWQ/wlivemanager/1629702180213_帆船酒店.pag")
+    }()
     var sessionManager = appDelegate.sessionManager1
 
     override func viewDidLoad() {
@@ -35,6 +38,7 @@ class ViewController1: UIViewController {
                 print("path is: \(task.filePath), \(task.url)")
             } else {
                 // 其他状态
+                print("download failed: \(task.url)")
             }
         }.validateFile(code: "466c63be90d64a3e53b86ea64912a5ae", type: .md5) { [weak self] (task) in
             self?.updateUI(task)
@@ -44,6 +48,11 @@ class ViewController1: UIViewController {
                 // 文件错误
             }
         }
+    }
+    
+    public func urlEncoding(_ url: String) -> String {
+        let url_encoding = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        return url_encoding
     }
 
     private func updateUI(_ task: DownloadTask) {
@@ -105,7 +114,6 @@ class ViewController1: UIViewController {
         sessionManager.suspend(URLString)
     }
 
-
     @IBAction func cancel(_ sender: UIButton) {
         sessionManager.cancel(URLString)
     }
@@ -118,4 +126,3 @@ class ViewController1: UIViewController {
         sessionManager.cache.clearDiskCache()
     }
 }
-
