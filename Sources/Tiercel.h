@@ -25,5 +25,5 @@
 //
 
 
-#define Tiercel_Version    @"3.2.2"
-#define Tiercel_BuildTime  @"2021-08-13 16:26"
+#define Tiercel_Version    @"3.2.4"
+#define Tiercel_BuildTime  @"2021-09-26 15:00"

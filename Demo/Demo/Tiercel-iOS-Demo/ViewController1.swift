@@ -19,11 +19,7 @@ class ViewController1: UIViewController {
     @IBOutlet weak var endDateLabel: UILabel!
     @IBOutlet weak var validationLabel: UILabel!
 
-
-    // lazy var URLString = "https://static.58.com/arthurupload/yangyiliang/static/jisha.pag"
-    lazy var URLString = {
-       urlEncoding("http://testv2.wos.58v5.cn/QSOrMlKjIhQWQ/wlivemanager/1629702180213_帆船酒店.pag")
-    }()
+    lazy var URLString = "https://5b0988e595225.cdn.sohucs.com/images/20190130/eef32f9e834944e5a87d058f3b5bb7a5.webp"
     var sessionManager = appDelegate.sessionManager1
 
     override func viewDidLoad() {
@@ -31,16 +27,14 @@ class ViewController1: UIViewController {
         
         sessionManager.tasks.safeObject(at: 0)?.progress { [weak self] (task) in
             self?.updateUI(task)
-        }.completion { [weak self] (task) in
+        }.completion { [weak self] task in
             self?.updateUI(task)
             if task.status == .succeeded {
                 // 下载成功
-                print("path is: \(task.filePath), \(task.url)")
             } else {
                 // 其他状态
-                print("download failed: \(task.url)")
             }
-        }.validateFile(code: "466c63be90d64a3e53b86ea64912a5ae", type: .md5) { [weak self] (task) in
+        }.validateFile(code: "9e2a3650530b563da297c9246acaad5c", type: .md5) { [weak self] task in
             self?.updateUI(task)
             if task.validation == .correct {
                 // 文件正确
@@ -48,11 +42,6 @@ class ViewController1: UIViewController {
                 // 文件错误
             }
         }
-    }
-    
-    public func urlEncoding(_ url: String) -> String {
-        let url_encoding = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        return url_encoding
     }
 
     private func updateUI(_ task: DownloadTask) {
@@ -79,33 +68,21 @@ class ViewController1: UIViewController {
     }
     
     @IBAction func start(_ sender: UIButton) {
-        
-        print("\(String(describing: sessionManager.cache.filePath(url: URLString)))")
-        
-        if sessionManager.cache.fileExists(url:URLString) {
-            print("\(URLString) is exists.")
-            
-            return
-        }
-        
-        DispatchQueue.global().async { [weak self] in
-            self?.sessionManager.download(self!.URLString)?.progress { [weak self] (task) in
-                self?.updateUI(task)
-            }.completion { [weak self] (task) in
-                self?.updateUI(task)
-                if task.status == .succeeded {
-                    // 下载成功
-                    print("download path is: \(task.filePath), \(task.url)")
-                } else {
-                    // 其他状态
-                }
-            }.validateFile(code: "466c63be90d64a3e53b86ea64912a5ae", type: .md5) { [weak self] (task) in
-                self?.updateUI(task)
-                if task.validation == .correct {
-                    // 文件正确
-                } else {
-                    // 文件错误
-                }
+        sessionManager.download(URLString)?.progress { [weak self] (task) in
+            self?.updateUI(task)
+        }.completion { [weak self] task in
+            self?.updateUI(task)
+            if task.status == .succeeded {
+                // 下载成功
+            } else {
+                // 其他状态
+            }
+        }.validateFile(code: "9e2a3650530b563da297c9246acaad5c", type: .md5) { [weak self] (task) in
+            self?.updateUI(task)
+            if task.validation == .correct {
+                // 文件正确
+            } else {
+                // 文件错误
             }
         }
     }
@@ -113,6 +90,7 @@ class ViewController1: UIViewController {
     @IBAction func suspend(_ sender: UIButton) {
         sessionManager.suspend(URLString)
     }
+
 
     @IBAction func cancel(_ sender: UIButton) {
         sessionManager.cancel(URLString)
@@ -126,3 +104,4 @@ class ViewController1: UIViewController {
         sessionManager.cache.clearDiskCache()
     }
 }
+

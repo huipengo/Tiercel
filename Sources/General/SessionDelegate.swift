@@ -24,7 +24,7 @@
 //  THE SOFTWARE.
 //
 
-import UIKit
+import Foundation
 
 internal class SessionDelegate: NSObject {
     internal weak var manager: SessionManager?
@@ -52,7 +52,7 @@ extension SessionDelegate: URLSessionDownloadDelegate {
                         )
             return
         }
-        task.didWriteData(bytesWritten: bytesWritten, totalBytesWritten: totalBytesWritten, totalBytesExpectedToWrite: totalBytesExpectedToWrite)
+        task.didWriteData(downloadTask: downloadTask, bytesWritten: bytesWritten, totalBytesWritten: totalBytesWritten, totalBytesExpectedToWrite: totalBytesExpectedToWrite)
     }
     
     
@@ -92,7 +92,6 @@ extension SessionDelegate: URLSessionDownloadDelegate {
                 manager.log(.error("urlSession(_:task:didCompleteWithError:)", error: TiercelError.unknown))
             }
         }
-
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
@@ -104,5 +103,4 @@ extension SessionDelegate: URLSessionDownloadDelegate {
             completionHandler(.performDefaultHandling, nil)
         }
     }
-    
 }

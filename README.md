@@ -70,12 +70,12 @@ $ gem install cocoapods
 在`Podfile`文件中
 
 ```ruby
-source 'https://github.com/CocoaPods/Specs.git'
+source 'https://cdn.cocoapods.org/'
 platform :ios, '10.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'Tiercel'
+    pod 'Tiercel-Sky'
 end
 ```
 
@@ -203,4 +203,12 @@ task?.validateFile(code: "9e2a3650530b563da297c9246acaad5c",
 
 Tiercel is available under the MIT license. See the LICENSE file for more info.
 
+
+
+## 声明
+
+- 原码地址：https://github.com/Danie1s/Tiercel
+
+- 在原作者基础上做了 iOS9.0 的适配
+- 感谢作者的开源
 

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E1C1DD38206C91EF003665A9"
+               BlueprintIdentifier = "E1EBF44524E9957E00697485"
                BuildableName = "Tiercel.framework"
                BlueprintName = "Tiercel"
                ReferencedContainer = "container:Tiercel.xcodeproj">
@@ -43,7 +43,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E1C1DD38206C91EF003665A9"
+            BlueprintIdentifier = "E1EBF44524E9957E00697485"
             BuildableName = "Tiercel.framework"
             BlueprintName = "Tiercel"
             ReferencedContainer = "container:Tiercel.xcodeproj">
@@ -59,7 +59,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E1C1DD38206C91EF003665A9"
+            BlueprintIdentifier = "E1EBF44524E9957E00697485"
             BuildableName = "Tiercel.framework"
             BlueprintName = "Tiercel"
             ReferencedContainer = "container:Tiercel.xcodeproj">
