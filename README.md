@@ -51,7 +51,7 @@ Tiercel 3.0 大幅提高了性能，拥有更完善的错误处理，提供了�
 
 ## 环境要求
 
-- iOS 10.0+
+- iOS 9.0+
 - Xcode 11.0+
 - Swift 5.0+
 
@@ -71,7 +71,7 @@ $ gem install cocoapods
 
 ```ruby
 source 'https://cdn.cocoapods.org/'
-platform :ios, '10.0'
+platform :ios, '9.0'
 use_frameworks!
 
 target '<Your Target Name>' do

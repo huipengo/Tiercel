@@ -1,15 +1,17 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Tiercel-Sky'
-  s.version          = '3.2.4'
+  s.version          = '3.2.4.5'
   s.swift_version    = '5.0'
-  s.summary          = 'Tiercel-Sky is a lightweight, pure-Swift download framework. forked from https://github.com/Danie1s/Tiercel'
+  s.summary          = <<-DESC
+  Tiercel-Sky is a lightweight, pure-Swift download framework. 
+  forked from https://github.com/Danie1s/Tiercel.
+                       DESC
 
-
-  s.homepage         = 'https://github.com/Danie1s/Tiercel'
+  s.homepage         = 'https://github.com/huipengo/Tiercel'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Daniels' => '176516837@qq.com' }
-  s.source           = { :git => 'git@github.com:huipengo/Tiercel.git', :tag => s.version.to_s }
+  s.author           = { 'huipengo' => 'huipeng_only@163.com' }
+  s.source           = { :git => 'https://github.com/huipengo/Tiercel.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
 
